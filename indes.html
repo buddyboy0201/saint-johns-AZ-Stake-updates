@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. Johns Community Updates</title>
+    <!-- Loading Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS to handle the tab switching animations */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: flex;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen font-sans">
+
+    <header class="bg-blue-800 text-white shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-6 text-center sm:text-left">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">St. Johns Community Updates</h1>
+            <p class="text-blue-200 text-sm mt-1">Stay connected without logging into Facebook</p>
+        </div>
+    </header>
+
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 flex justify-center sm:justify-start space-x-2 sm:space-x-4 py-3">
+            <button onclick="switchTab('stake')" id="btn-stake" class="px-4 py-2 rounded-md font-medium text-sm sm:text-base transition-colors bg-blue-100 text-blue-800 focus:outline-none">
+                Stake Updates
+            </button>
+            <button onclick="switchTab('pioneer')" id="btn-pioneer" class="px-4 py-2 rounded-md font-medium text-sm sm:text-base transition-colors bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 focus:outline-none">
+                Pioneer Days
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow w-full max-w-4xl mx-auto p-4 sm:p-6 flex justify-center mt-2 sm:mt-4">
+        
+        <!-- Tab 1: Stake Updates -->
+        <div id="tab-stake" class="tab-content active w-full max-w-[500px] bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex-col min-h-[600px] items-center">
+            <div class="bg-blue-50 w-full p-3 text-center border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-blue-900">St. Johns AZ Stake</h2>
+            </div>
+            <iframe 
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FStJohnsAZStake&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" 
+                width="100%" 
+                height="600" 
+                style="border:none;overflow:hidden; max-width: 500px;" 
+                scrolling="no" 
+                frameborder="0" 
+                allowfullscreen="true" 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+            </iframe>
+        </div>
+
+        <!-- Tab 2: Pioneer Days Updates -->
+        <div id="tab-pioneer" class="tab-content w-full max-w-[500px] bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex-col min-h-[600px] items-center">
+             <div class="bg-orange-50 w-full p-3 text-center border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-orange-900">Pioneer Days Events</h2>
+            </div>
+            <iframe 
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61560640043914&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" 
+                width="100%" 
+                height="600" 
+                style="border:none;overflow:hidden; max-width: 500px;" 
+                scrolling="no" 
+                frameborder="0" 
+                allowfullscreen="true" 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+            </iframe>
+        </div>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white text-center py-6 mt-auto">
+        <p class="text-sm text-gray-400">Created for the St. Johns Community.</p>
+    </footer>
+
+    <!-- JavaScript to handle switching between the two tabs -->
+    <script>
+        function switchTab(tabName) {
+            // Get references to our elements
+            const tabStake = document.getElementById('tab-stake');
+            const tabPioneer = document.getElementById('tab-pioneer');
+            const btnStake = document.getElementById('btn-stake');
+            const btnPioneer = document.getElementById('btn-pioneer');
+
+            if (tabName === 'stake') {
+                // Show Stake, Hide Pioneer
+                tabStake.classList.add('active');
+                tabPioneer.classList.remove('active');
+                
+                // Update Button Styles
+                btnStake.classList.replace('bg-white', 'bg-blue-100');
+                btnStake.classList.replace('text-gray-600', 'text-blue-800');
+                
+                btnPioneer.classList.replace('bg-blue-100', 'bg-white');
+                btnPioneer.classList.replace('text-blue-800', 'text-gray-600');
+
+            } else if (tabName === 'pioneer') {
+                // Show Pioneer, Hide Stake
+                tabPioneer.classList.add('active');
+                tabStake.classList.remove('active');
+                
+                // Update Button Styles
+                btnPioneer.classList.replace('bg-white', 'bg-blue-100');
+                btnPioneer.classList.replace('text-gray-600', 'text-blue-800');
+                
+                btnStake.classList.replace('bg-blue-100', 'bg-white');
+                btnStake.classList.replace('text-blue-800', 'text-gray-600');
+            }
+        }
+    </script>
+</body>
+</html>
