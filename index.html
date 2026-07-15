@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>St. Johns Community Updates</title>
-    
+
     <!-- SEO Meta Tags for Google Search -->
     <meta name="description" content="Stay up to date with the St. Johns AZ Stake and St. Johns Pioneer Days events. Community announcements, schedules, and news for St. Johns, Arizona.">
     <meta name="keywords" content="St. Johns Pioneer Days, St. Johns AZ Stake, St. Johns Arizona, Church of Jesus Christ of Latter-day Saints, community events, pioneer days schedule">
-    
+
     <!-- JSON-LD Structured Data for Google -->
     <script type="application/ld+json">
     {
@@ -52,7 +52,6 @@
     <!-- Loading Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom CSS to handle the tab switching animations */
         .tab-content {
             display: none;
             opacity: 0;
@@ -61,6 +60,55 @@
         .tab-content.active {
             display: flex;
             opacity: 1;
+        }
+
+        /* Responsive iframe wrapper: keeps Facebook's fixed-width plugin
+           scaling cleanly on small screens instead of overflowing/clipping */
+        .fb-frame-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+        .fb-frame-wrap iframe {
+            width: 100%;
+            border: none;
+        }
+
+        /* Skeleton shown until the iframe reports it has loaded (or times out) */
+        .fb-skeleton {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #f3f4f6;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .fb-skeleton.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .fb-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #d1d5db;
+            border-top-color: #1d4ed8;
+            border-radius: 50%;
+            animation: fb-spin 0.8s linear infinite;
+        }
+        @keyframes fb-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Always-visible fallback link under each embed, in case Facebook
+           shows a login wall or blocks the embed entirely for a given visitor */
+        .fb-fallback {
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 0.6rem 0.5rem;
         }
     </style>
 </head>
@@ -85,22 +133,36 @@
     </nav>
 
     <main class="flex-grow w-full max-w-4xl mx-auto p-4 sm:p-6 flex justify-center mt-2 sm:mt-4">
-        
+
         <!-- Tab 1: Stake Updates -->
         <div id="tab-stake" class="tab-content active w-full max-w-[500px] bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex-col min-h-[600px] items-center">
             <div class="bg-blue-50 w-full p-3 text-center border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-blue-900">St. Johns AZ Stake</h2>
             </div>
-            <iframe 
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FStJohnsAZStake&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" 
-                width="100%" 
-                height="600" 
-                style="border:none;overflow:hidden; max-width: 600px;" 
-                scrolling="no" 
-                frameborder="0" 
-                allowfullscreen="true" 
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-            </iframe>
+
+            <div class="fb-frame-wrap" style="height:600px;">
+                <div class="fb-skeleton" id="skeleton-stake">
+                    <div class="fb-spinner"></div>
+                    <p class="text-gray-500 text-sm">Loading Facebook feed…</p>
+                </div>
+                <iframe
+                    id="iframe-stake"
+                    data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FStJohnsAZStake&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId"
+                    height="600"
+                    scrolling="no"
+                    frameborder="0"
+                    loading="lazy"
+                    allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                </iframe>
+            </div>
+
+            <div class="fb-fallback w-full border-t border-gray-100 bg-gray-50">
+                Feed not loading?
+                <a href="https://www.facebook.com/StJohnsAZStake" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline hover:text-blue-900">
+                    View the St. Johns AZ Stake page directly on Facebook →
+                </a>
+            </div>
         </div>
 
         <!-- Tab 2: Pioneer Days Updates -->
@@ -108,16 +170,30 @@
              <div class="bg-orange-50 w-full p-3 text-center border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-orange-900">Pioneer Days Events</h2>
             </div>
-            <iframe 
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61560640043914&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" 
-                width="100%" 
-                height="600" 
-                style="border:none;overflow:hidden; max-width: 600px;" 
-                scrolling="no" 
-                frameborder="0" 
-                allowfullscreen="true" 
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-            </iframe>
+
+            <div class="fb-frame-wrap" style="height:600px;">
+                <div class="fb-skeleton" id="skeleton-pioneer">
+                    <div class="fb-spinner"></div>
+                    <p class="text-gray-500 text-sm">Loading Facebook feed…</p>
+                </div>
+                <iframe
+                    id="iframe-pioneer"
+                    data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61560640043914&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId"
+                    height="600"
+                    scrolling="no"
+                    frameborder="0"
+                    loading="lazy"
+                    allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                </iframe>
+            </div>
+
+            <div class="fb-fallback w-full border-t border-gray-100 bg-gray-50">
+                Feed not loading?
+                <a href="https://www.facebook.com/profile.php?id=61560640043914" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline hover:text-orange-900">
+                    View the Pioneer Days page directly on Facebook →
+                </a>
+            </div>
         </div>
 
     </main>
@@ -127,40 +203,69 @@
         <p class="text-sm text-gray-400">Created for the St. Johns Community.</p>
     </footer>
 
-    <!-- JavaScript to handle switching between the two tabs -->
     <script>
+        // Only load an iframe's real src the first time its tab is opened.
+        // This avoids paying the load cost for both feeds on first page view,
+        // and pairs with loading="lazy" as a second layer of deferral.
+        function ensureFrameLoaded(iframeId, skeletonId) {
+            const frame = document.getElementById(iframeId);
+            const skeleton = document.getElementById(skeletonId);
+            if (!frame || frame.src) return; // already loaded
+
+            frame.src = frame.dataset.src;
+
+            // Hide the skeleton once the iframe fires 'load'. Cross-origin
+            // iframes still fire this event even though we can't read their
+            // content, so this reliably signals "something rendered."
+            frame.addEventListener('load', () => {
+                if (skeleton) skeleton.classList.add('hidden');
+            }, { once: true });
+
+            // Safety net: if 'load' never fires (slow network, blocked
+            // request, etc.), stop showing the spinner after 8s so the
+            // fallback link below is the visible option instead of an
+            // endless loading state.
+            setTimeout(() => {
+                if (skeleton) skeleton.classList.add('hidden');
+            }, 8000);
+        }
+
         function switchTab(tabName) {
-            // Get references to our elements
             const tabStake = document.getElementById('tab-stake');
             const tabPioneer = document.getElementById('tab-pioneer');
             const btnStake = document.getElementById('btn-stake');
             const btnPioneer = document.getElementById('btn-pioneer');
 
             if (tabName === 'stake') {
-                // Show Stake, Hide Pioneer
                 tabStake.classList.add('active');
                 tabPioneer.classList.remove('active');
-                
-                // Update Button Styles
+
                 btnStake.classList.replace('bg-white', 'bg-blue-100');
                 btnStake.classList.replace('text-gray-600', 'text-blue-800');
-                
+
                 btnPioneer.classList.replace('bg-blue-100', 'bg-white');
                 btnPioneer.classList.replace('text-blue-800', 'text-gray-600');
 
+                ensureFrameLoaded('iframe-stake', 'skeleton-stake');
+
             } else if (tabName === 'pioneer') {
-                // Show Pioneer, Hide Stake
                 tabPioneer.classList.add('active');
                 tabStake.classList.remove('active');
-                
-                // Update Button Styles
+
                 btnPioneer.classList.replace('bg-white', 'bg-blue-100');
                 btnPioneer.classList.replace('text-gray-600', 'text-blue-800');
-                
+
                 btnStake.classList.replace('bg-blue-100', 'bg-white');
                 btnStake.classList.replace('text-blue-800', 'text-gray-600');
+
+                ensureFrameLoaded('iframe-pioneer', 'skeleton-pioneer');
             }
         }
+
+        // Load the first (visible) tab's feed on page load.
+        document.addEventListener('DOMContentLoaded', () => {
+            ensureFrameLoaded('iframe-stake', 'skeleton-stake');
+        });
     </script>
 </body>
 </html>
